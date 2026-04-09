@@ -1,59 +1,120 @@
 /**
- * MAIN CLASS: UseCase6; TrainConsistMgmt
- * Use Case 6: Map Bogie to Capacity (HashMap)
+ * MAIN CLASS: UseCase15; TrainConsistMgmt
+ * Use Case 15: Safe Cargo Assignment Using try-catch-finally
  *
- * Description: This class maps each bogie to its seating or load capacity
- * using a HashMap. It allows storing and retrieving bogie-related data
- * efficiently using key–value pairs.
+ * Description: This class demonstrates safe cargo assignment in a railway system.
+ * At this stage, the application consists of:
+ *  - Assigning cargo dynamically to goods bogies
+ *  - Validating cargo safety based on bogie shape
+ *  - Throwing a custom runtime exception for unsafe conditions
+ *  - Handling exceptions using try-catch
+ *  - Executing cleanup/logging using finally block
  *
- * At this stage, the application:
- *  - Associates bogies with their capacities
- *  - Stores data using HashMap
- *  - Prevents duplicate keys
- *  - Displays bogie-capacity mapping
+ *  Ensures that:
+ *  - Application does not crash during unsafe operations
+ *  - User receives proper feedback
+ *  - System continues execution after failure
  *
- * This use case demonstrates key–value mapping using HashMap.
- *
- * @author
- * @version 6.0
+ * @author SHIVANSH DHINGRA
+ * @version 1.0
  *
  */
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TrainConsistMgmt {
 
     /**
-     * Main Method - Entry Point
+     * Custom Runtime Exception for Cargo Safety
+     */
+    static class CargoSafetyException extends RuntimeException {
+        public CargoSafetyException(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * GoodsBogie Class
+     */
+    static class GoodsBogie {
+        private String shape;
+        private String cargo;
+
+        public GoodsBogie(String shape) {
+            this.shape = shape;
+        }
+
+        /**
+         * Method to assign cargo with safety validation
+         */
+        public void assignCargo(String cargoType) {
+
+            try {
+                System.out.println("Assigning cargo: " + cargoType);
+
+                // Validate unsafe condition
+                if (shape.equalsIgnoreCase("Rectangular") &&
+                        cargoType.equalsIgnoreCase("Petroleum")) {
+
+                    throw new CargoSafetyException(
+                            "Unsafe cargo! Petroleum cannot be assigned to Rectangular bogie."
+                    );
+                }
+
+                // Safe assignment
+                cargo = cargoType;
+                System.out.println("Cargo assigned successfully.");
+
+            } catch (CargoSafetyException e) {
+
+                // Handle exception
+                System.out.println("Error: " + e.getMessage());
+
+            } finally {
+
+                // Always executes
+                System.out.println("Assignment process completed.\n");
+            }
+        }
+
+        /**
+         * Display bogie details
+         */
+        public void displayDetails() {
+            System.out.println("Bogie Shape : " + shape);
+            System.out.println("Cargo       : " + (cargo != null ? cargo : "None"));
+        }
+    }
+
+    /**
+     * Main Method - Entry Point of Application
      */
     public static void main(String[] args) {
 
-        System.out.println("===============================================");
-        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
-        System.out.println("===============================================\n");
+        // Display welcome banner
+        System.out.println("=====================================");
+        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=====================================\n");
 
-        // HashMap to store bogie and its capacity
-        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+        // Create Goods Bogies
+        GoodsBogie bogie1 = new GoodsBogie("Cylindrical");
+        GoodsBogie bogie2 = new GoodsBogie("Rectangular");
+        GoodsBogie bogie3 = new GoodsBogie("Rectangular");
 
-        // ----- ADD BOGIES WITH CAPACITY -----
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
-        bogieCapacityMap.put("Cargo", 100);
+        // Perform cargo assignments
+        bogie1.assignCargo("Petroleum");  // Safe
+        bogie2.assignCargo("Petroleum");  // Unsafe
+        bogie3.assignCargo("Grain");      // Safe
 
-        // ----- DISPLAY BOGIE CAPACITY -----
-        System.out.println("Bogie Capacity Details:\n");
+        // Display final state
+        System.out.println("Final Bogie Details:\n");
 
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println("Bogie: " + entry.getKey() +
-                    " | Capacity: " + entry.getValue());
-        }
+        bogie1.displayDetails();
+        System.out.println();
 
-        System.out.println("\nNote:");
-        System.out.println("HashMap stores bogies as keys and capacities as values.");
-        System.out.println("Allows fast lookup and efficient data management.");
+        bogie2.displayDetails();
+        System.out.println();
 
-        System.out.println("\nUC6 mapping setup completed...");
+        bogie3.displayDetails();
+
+        System.out.println("\nSystem continues running safely...");
     }
 }
