@@ -1,59 +1,90 @@
 /**
- * MAIN CLASS: UseCase6; TrainConsistMgmt
- * Use Case 6: Map Bogie to Capacity (HashMap)
+ * MAIN CLASS: UseCase19; TrainConsistMgmt
+ * Use Case 19: Binary Search for Bogie ID (Optimized Searching)
  *
- * Description: This class maps each bogie to its seating or load capacity
- * using a HashMap. It allows storing and retrieving bogie-related data
- * efficiently using key–value pairs.
+ * Description: This class demonstrates searching for a bogie ID
+ * using Binary Search on sorted data.
  *
- * At this stage, the application:
- *  - Associates bogies with their capacities
- *  - Stores data using HashMap
- *  - Prevents duplicate keys
- *  - Displays bogie-capacity mapping
+ * At this stage, the application consists of:
+ *  - Creating an array of bogie IDs
+ *  - Sorting the array (precondition for Binary Search)
+ *  - Applying Binary Search using low, high, and mid indexes
+ *  - Comparing values using compareTo()
+ *  - Narrowing search range using divide-and-conquer
+ *  - Displaying search result
  *
- * This use case demonstrates key–value mapping using HashMap.
+ *  Focus is on efficient searching using O(log n) complexity
  *
- * @author
- * @version 6.0
+ * @author SHIVANSH DHINGRA
+ * @version 1.0
  *
  */
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public class TrainConsistMgmt {
 
     /**
-     * Main Method - Entry Point
+     * Main Method - Entry Point of Application
      */
     public static void main(String[] args) {
 
-        System.out.println("===============================================");
-        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
-        System.out.println("===============================================\n");
+        // Display welcome banner
+        System.out.println("=====================================");
+        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=====================================\n");
 
-        // HashMap to store bogie and its capacity
-        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+        // Create array of bogie IDs (unsorted)
+        String[] bogieIds = {
+                "BG309",
+                "BG101",
+                "BG550",
+                "BG205",
+                "BG412"
+        };
 
-        // ----- ADD BOGIES WITH CAPACITY -----
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
-        bogieCapacityMap.put("Cargo", 100);
+        // Search key
+        String searchKey = "BG205";
 
-        // ----- DISPLAY BOGIE CAPACITY -----
-        System.out.println("Bogie Capacity Details:\n");
+        // Display original array
+        System.out.println("Original Bogie IDs:");
+        System.out.println(Arrays.toString(bogieIds));
 
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println("Bogie: " + entry.getKey() +
-                    " | Capacity: " + entry.getValue());
+        // Step 1: Sort the array (required for Binary Search)
+        Arrays.sort(bogieIds);
+
+        System.out.println("\nSorted Bogie IDs:");
+        System.out.println(Arrays.toString(bogieIds));
+
+        // Binary Search Logic
+        int low = 0;
+        int high = bogieIds.length - 1;
+        boolean found = false;
+
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+
+            int comparison = searchKey.compareTo(bogieIds[mid]);
+
+            if (comparison == 0) {
+                found = true;
+                System.out.println("\nBogie Found at position: " + mid);
+                break;
+            }
+            else if (comparison > 0) {
+                low = mid + 1;   // Search right half
+            }
+            else {
+                high = mid - 1;  // Search left half
+            }
         }
 
-        System.out.println("\nNote:");
-        System.out.println("HashMap stores bogies as keys and capacities as values.");
-        System.out.println("Allows fast lookup and efficient data management.");
+        // Result display
+        if (!found) {
+            System.out.println("\nBogie ID not found in the consist.");
+        }
 
-        System.out.println("\nUC6 mapping setup completed...");
+        System.out.println("\nBinary Search operation completed...");
     }
 }
