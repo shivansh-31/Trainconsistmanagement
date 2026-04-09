@@ -1,59 +1,78 @@
 /**
- * MAIN CLASS: UseCase6; TrainConsistMgmt
- * Use Case 6: Map Bogie to Capacity (HashMap)
+ * MAIN CLASS: UseCase20; TrainConsistMgmt
+ * Use Case 20: Exception Handling During Search Operations
  *
- * Description: This class maps each bogie to its seating or load capacity
- * using a HashMap. It allows storing and retrieving bogie-related data
- * efficiently using key–value pairs.
+ * Description: This class demonstrates defensive programming by
+ * validating the state before performing a search operation.
  *
- * At this stage, the application:
- *  - Associates bogies with their capacities
- *  - Stores data using HashMap
- *  - Prevents duplicate keys
- *  - Displays bogie-capacity mapping
+ * At this stage, the application consists of:
+ *  - Creating an array of bogie IDs
+ *  - Checking if the collection is empty before searching
+ *  - Throwing IllegalStateException if no data exists
+ *  - Performing search only when valid
+ *  - Displaying appropriate result
  *
- * This use case demonstrates key–value mapping using HashMap.
+ *  Focus is on fail-fast behavior and runtime validation
  *
- * @author
- * @version 6.0
+ * @author SHIVANSH DHINGRA
+ * @version 1.0
  *
  */
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TrainConsistMgmt {
 
     /**
-     * Main Method - Entry Point
+     * Method to perform Linear Search with validation
+     */
+    public static boolean searchBogie(String[] bogieIds, String searchKey) {
+
+        // Defensive check (Fail-Fast)
+        if (bogieIds.length == 0) {
+            throw new IllegalStateException("No bogies available in the train. Cannot perform search.");
+        }
+
+        // Linear Search
+        for (String id : bogieIds) {
+            if (id.equals(searchKey)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Main Method - Entry Point of Application
      */
     public static void main(String[] args) {
 
-        System.out.println("===============================================");
-        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
-        System.out.println("===============================================\n");
+        // Display welcome banner
+        System.out.println("=====================================");
+        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=====================================\n");
 
-        // HashMap to store bogie and its capacity
-        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+        // Example 1: Empty bogie list
+        String[] emptyBogieList = {};
 
-        // ----- ADD BOGIES WITH CAPACITY -----
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
-        bogieCapacityMap.put("Cargo", 100);
-
-        // ----- DISPLAY BOGIE CAPACITY -----
-        System.out.println("Bogie Capacity Details:\n");
-
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println("Bogie: " + entry.getKey() +
-                    " | Capacity: " + entry.getValue());
+        try {
+            System.out.println("Searching in empty train...");
+            searchBogie(emptyBogieList, "BG101");
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        System.out.println("\nNote:");
-        System.out.println("HashMap stores bogies as keys and capacities as values.");
-        System.out.println("Allows fast lookup and efficient data management.");
+        // Example 2: Valid bogie list
+        String[] bogieIds = {"BG101", "BG205", "BG309"};
 
-        System.out.println("\nUC6 mapping setup completed...");
+        System.out.println("\nSearching in available bogies...");
+        boolean found = searchBogie(bogieIds, "BG205");
+
+        if (found) {
+            System.out.println("Bogie Found!");
+        } else {
+            System.out.println("Bogie Not Found!");
+        }
+
+        System.out.println("\nSearch operation completed safely...");
     }
 }
