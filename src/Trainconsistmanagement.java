@@ -1,59 +1,58 @@
 /**
- * MAIN CLASS: UseCase6; TrainConsistMgmt
- * Use Case 6: Map Bogie to Capacity (HashMap)
+ * MAIN CLASS: UseCase17; TrainConsistMgmt
+ * Use Case 17: Sort Bogie Names Using Arrays.sort()
  *
- * Description: This class maps each bogie to its seating or load capacity
- * using a HashMap. It allows storing and retrieving bogie-related data
- * efficiently using key–value pairs.
+ * Description: This class demonstrates sorting of bogie type names
+ * using Java's built-in Arrays.sort() method.
  *
- * At this stage, the application:
- *  - Associates bogies with their capacities
- *  - Stores data using HashMap
- *  - Prevents duplicate keys
- *  - Displays bogie-capacity mapping
+ * At this stage, the application consists of:
+ *  - Creating an array of bogie type names
+ *  - Sorting the bogie names alphabetically
+ *  - Using optimized Java library method Arrays.sort()
+ *  - Displaying sorted output using Arrays.toString()
  *
- * This use case demonstrates key–value mapping using HashMap.
+ *  No manual sorting logic is used (like Bubble Sort)
+ *  Focus is on clean, efficient, and production-level coding
  *
- * @author
- * @version 6.0
+ * @author SHIVANSH DHINGRA
+ * @version 1.0
  *
  */
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 public class TrainConsistMgmt {
 
     /**
-     * Main Method - Entry Point
+     * Main Method - Entry Point of Application
      */
     public static void main(String[] args) {
 
-        System.out.println("===============================================");
-        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
-        System.out.println("===============================================\n");
+        // Display welcome banner
+        System.out.println("=====================================");
+        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=====================================\n");
 
-        // HashMap to store bogie and its capacity
-        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+        // Create array of bogie type names (unsorted)
+        String[] bogieTypes = {
+                "Sleeper",
+                "AC Chair",
+                "First Class",
+                "General",
+                "Luxury"
+        };
 
-        // ----- ADD BOGIES WITH CAPACITY -----
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
-        bogieCapacityMap.put("Cargo", 100);
+        // Display original array
+        System.out.println("Before Sorting:");
+        System.out.println(Arrays.toString(bogieTypes));
 
-        // ----- DISPLAY BOGIE CAPACITY -----
-        System.out.println("Bogie Capacity Details:\n");
+        // Sort using built-in method
+        Arrays.sort(bogieTypes);
 
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println("Bogie: " + entry.getKey() +
-                    " | Capacity: " + entry.getValue());
-        }
+        // Display sorted array
+        System.out.println("\nAfter Sorting (Alphabetical Order):");
+        System.out.println(Arrays.toString(bogieTypes));
 
-        System.out.println("\nNote:");
-        System.out.println("HashMap stores bogies as keys and capacities as values.");
-        System.out.println("Allows fast lookup and efficient data management.");
-
-        System.out.println("\nUC6 mapping setup completed...");
+        System.out.println("\nSorting completed successfully...");
     }
 }
